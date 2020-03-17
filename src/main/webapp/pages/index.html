@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>icloud云平台</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header layui-bg-green">
+    <div class="layui-logo" style="color:#ffffff;font-size:30px;font-weight:bold">icloud MS</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <!-- <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="">控制台</a></li>
+      <li class="layui-nav-item"><a href="">商品管理</a></li>
+      <li class="layui-nav-item"><a href="">用户</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">邮件管理</a></dd>
+          <dd><a href="">消息管理</a></dd>
+          <dd><a href="">授权管理</a></dd>
+        </dl>
+      </li>
+    </ul> -->
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          范林茂
+        </a>
+        <!-- <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl> -->
+      </li>
+      <li class="layui-nav-item"><a href="">退出</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a href="javascript:void(0);"><i class="layui-icon layui-icon-template"></i>&nbsp;&nbsp;模板</a>
+          <!-- <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="javascript:;">列表三</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl> -->
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:void(0);"><i class="layui-icon layui-icon-user"></i>虚拟机</a>
+        </li>
+        <li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-user"></i>ISO</a>
+		</li>
+        <li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-app"></i>软件中心</a>
+		</li>
+        <li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-console"></i>控制板</a>
+		</li>
+        <li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-log"></i>事件</a>
+		</li>
+        <li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-website"></i>IP管理</a>
+		</li>
+		<li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-user"></i>机房管理</a>
+		</li>
+		<li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-user"></i>定时任务</a>
+		</li>
+		<li class="layui-nav-item">
+			<a href="javascript:void(0);"><i class="layui-icon layui-icon-user"></i>账户管理</a>
+		</li>
+      </ul>
+    </div>
+  </div>
+  <!-- 主体内容 -->
+  <div class="layui-body">
+    <iframe frameborder="0" style="width: 100%;min-height:200px" src="welcome.html"></iframe>
+  </div>
+  
+  <!-- 底部固定区域 -->
+  <div class="layui-footer">
+    &copy;2020 Flemming. All rights reserved.
+  </div>
+  
+</div>
+<script src="../layui/layui.js"></script>
+<script type="text/javascript" src="../layui/lay/modules/jquery.js"></script>
+<script>
+	//加载lay组件
+	layui.use('element', function(){
+	  var element = layui.element;
+	  
+	});
+	
+	//iframe自适应
+	layui.use('jquery', function(){
+	  var $ = layui.jquery;
+	  
+	  	$(window).on('resize', function(){
+	  		var $content = $('.layui-body');
+	  		//$content.height($(this).height - 120);
+	  		$content.find('iframe').each(function(){
+	  			$(this).height($content.height());
+	  		});
+	  	}).resize();
+	  
+	});
+	
+	
+	
+</script>
+<script>
+
+</script>
+</body>
+</html>

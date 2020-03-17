@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>控制板</title>
+		<link rel="stylesheet" href="../layui/css/layui.css" />
+		<link rel="stylesheet" href="../css/mb.css">
+		<link rel="stylesheet" href="../css/iframe.css" />
+		<script type="text/javascript" src="../js/global.js"></script>
+		<style type="text/css">
+			.layui-badge-dot{
+				float: right;
+				margin-top: 1.5%;
+				margin-right: 5px;
+			}
+			.layui-badge-dot:hover{
+				cursor: pointer;
+			}
+		</style>
+		<!-- <script type="text/javascript" src="../js/global.js"></script> -->
+	</head>
+	<body>
+		<blockquote class="my-block-quote">
+		  <p class="my-big-title">控制板</p>
+		  一、管理员通过控制板来查看系统的配置，查看系统容量，避免IP消耗完或者容量溢出等错误的发生。
+		</blockquote>
+		<!-- 图表 -->
+		<div class="layui-card layui-btn-container">
+		  <div class="layui-card-header" style="background: #F2F2F2 ;">
+			  <span class="card-title">系统资源的使用情况</span>
+			  <span id="chart1" class="layui-badge-dot layui-bg-green"></span>
+			  <span id="chart2" class="layui-badge-dot layui-bg-black"></span>
+		  </div>
+		  <div class="layui-card-body">
+		    <div id="main" style="height: 350px;">
+		    	
+		    </div>
+		  </div>
+		</div>
+		
+		
+		
+		<script src="../layui/lay/modules/echarts-all.js"></script>
+		<script type="text/html" id="row-opBar">
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
+		</script>
+	</body>
+</html>

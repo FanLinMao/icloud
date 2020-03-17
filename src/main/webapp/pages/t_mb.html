@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>操作系统模板</title>
+		<link rel="stylesheet" href="../layui/css/layui.css" />
+		<link rel="stylesheet" href="../css/mb.css">
+		<link rel="stylesheet" href="../css/iframe.css" />
+		<script type="text/javascript" src="../js/global.js"></script>
+	</head>
+	<body>
+		<!-- 内容主体区域 -->
+		<blockquote class="my-block-quote">
+		  <p class="my-big-title">制作虚拟机模板</p>
+		  一、系统中存在的操作系统模板，用于教师预约资源时勾选
+		</blockquote>
+		<!-- 按钮栏 -->
+		<div class="layui-btn-container">
+		  <button type="button" class="layui-btn">
+		    <i class="layui-icon">&#xe608;</i> 新建模板
+		  </button>
+		  <button type="button" class="layui-btn">按钮二</button> 
+		  <button type="button" class="layui-btn">按钮三</button> 
+		</div>
+		<!-- 表格 -->
+		<div class="layui-btn-container">
+			<table class="layui-table" id="lay-table" lay-filter="tb-filter">
+		</div>
+		
+		<script type="text/html" id="row-opBar">
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">销毁</a>
+		</script>
+	</body>
+</html>

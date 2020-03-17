@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>所有虚拟机</title>
+		<link rel="stylesheet" href="../layui/css/layui.css" />
+		<link rel="stylesheet" href="../css/mb.css">
+		<link rel="stylesheet" href="../css/iframe.css" />
+		<script type="text/javascript" src="../js/global.js"></script>
+	</head>
+	<body>
+		
+		<blockquote class="my-block-quote">
+		  <p class="my-big-title">所有虚拟机</p>
+		  一、虚拟机就是一台配置好了的服务器，它有您期望的硬件配置、操作系统和网络配置。
+		  
+		  
+		</blockquote>
+		<!-- 按钮栏 -->
+		<div class="layui-btn-container">
+		  <button type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-refresh"></i></button>
+		  <button type="button" class="layui-btn layui-btn-primary">
+		    <i class="layui-icon layui-icon-add-circle-fine"></i> 新建
+		  </button>
+		  <button type="button" class="layui-btn layui-btn-primary">
+			<i class="layui-icon layui-icon-triangle-r" style="color: seagreen;"></i>启动
+		  </button> 
+		  <button type="button" class="layui-btn layui-btn-primary">
+			<i class="layui-icon layui-icon-log"></i> 关机
+		  </button> 
+		  <button type="button" class="layui-btn layui-btn-primary">
+			<i class="layui-icon layui-icon-close"></i>销毁
+		  </button> 
+		</div>
+		<!-- 表格 -->
+		<div class="layui-btn-container">
+			<table class="layui-table" id="lay-table" lay-filter="tb-filter">
+		</div>
+		
+		
+		<script type="text/html" id="row-opBar">
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="into">进入</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="open">开机</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close">关机</a>
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="make">制作</a>
+		</script>
+		<script>
+			//加载lay组件
+			layui.use('element', function(){
+			  var element = layui.element;
+			  
+			});
+		</script>
+	</body>
+</html>

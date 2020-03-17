@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>操作系统模板</title>
+		<link rel="stylesheet" href="../css/mb.css">
+		<script type="text/javascript" src="../js/global.js"></script>
+		<style type="text/css">
+			* { 
+				margin:0; 
+				padding:0; 
+			} 
+			html, body { 
+				width:100%; 
+				height:100%; 
+				overflow: hidden; 
+			} 
+
+		</style>
+	</head>
+	<body>
+		<!-- 内容主体区域 -->
+		
+			<!-- <fieldset class="layui-elem-field layui-field-title site-title">
+		      <legend><a name="default">操作系统模板</a></legend>
+		    </fieldset>
+		    <blockquote class="site-text layui-elem-quote">
+		      本篇为你介绍表格的HTML使用，你将通过内置的自定义属性对其进行风格的多样化设定。<em>请注意：</em>这仅仅局限于呈现基础表格，如果你急切需要的是数据表格（<em>datatable</em>），那么你应该详细阅读：<a href="/doc/modules/table.html">table模块</a>
+		    </blockquote> -->
+		<blockquote class="my-block-quote">
+		  <p class="my-big-title">操作系统模板</p>
+		  一、系统中存在的操作系统模板，用于教师预约资源时勾选
+		</blockquote>
+		<!-- 按钮栏 -->
+		<div class="layui-btn-container">
+		  <button type="button" class="layui-btn">
+		    <i class="layui-icon">&#xe608;</i> 新建虚拟机
+		  </button>
+		  <button type="button" class="layui-btn">按钮二</button> 
+		  <button type="button" class="layui-btn">按钮三</button> 
+		</div>
+		<!-- 表格 -->
+		<div class="layui-btn-container">
+			<table class="layui-table" id="lay-table" lay-filter="tb-filter">
+		</div>
+		<script type="text/html" id="row-opBar">
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">销毁</a>
+		</script>
+	</body>
+</html>
