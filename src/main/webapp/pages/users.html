@@ -16,11 +16,11 @@
 		</blockquote>
 		<!-- 按钮 -->
 		<div class="layui-btn-container">
-		  <button type="button" class="layui-btn">
-		    <i class="layui-icon">&#xe608;</i> 添加账户
+		  <button type="button" data-method="add" data-type="auto" class="layui-btn">
+		    <i class="layui-icon layui-icon-add-circle"></i> 添加账户
 		  </button>
-		  <button type="button" class="layui-btn">
-		    <i class="layui-icon">&#xe608;</i> 删除账户
+		  <button type="button" data-method="del" data-type="auto" class="layui-btn">
+		    <i class="layui-icon layui-icon-reduce-circle"></i> 删除账户
 		  </button>
 		</div>
 		<hr class="layui-bg-green">
@@ -28,15 +28,66 @@
 		<div class="layui-btn-container">
 			<table class="layui-table" id="lay-table" lay-filter="tb-filter">
 		</div>
-		
-		
+
 		<script type="text/html" id="row-opBar">
-		  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">查看</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a> -->
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">修改</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" data-type="auto" lay-event="del">删除</a>
+		  <a class="layui-btn layui-btn-warm layui-btn-xs" data-type="auto" lay-event="edit">编辑</a>
 		</script>
 		<script type="text/html" id="switchTpl">
-		  <input type="checkbox" name="action" value="{{d.id}}" lay-skin="switch" lay-text="禁用|启用" lay-filter="openStatus" {{ d.id == 10003 ? 'checked' : '' }}>
+		  <input type="checkbox" name="action" value="{{d.userId}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="openStatus" {{ d.status == 1 ? 'checked' : '' }}>
+		</script>
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form layui-form-pane" lay-filter="tipsform">
+				<input type="hidden" name="userId" value=""/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">账户</label>
+					<div class="layui-input-block">
+						<input type="text" name="username" required lay-verify="username"
+							placeholder="请输入账户" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">密码</label>
+					<div class="layui-input-inline">
+						<input type="password" name="password" required
+							lay-verify="password" placeholder="请输入密码" autocomplete="off"
+							class="layui-input">
+					</div>
+					<div class="layui-form-mid layui-word-aux">输入6-12位，包括字母，数字.</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">角色</label>
+					<div class="layui-input-block">
+						<select name="role" required lay-verify="required">
+							<option value=""></option>
+							<option value="1">管理员</option>
+							<option value="2">教师</option>
+							<option value="3">学生</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item" pane>
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="checkbox" name="enable" value="1" lay-skin="switch" lay-text="启用|禁用" lay-filter="accountStatus" checked>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="layerPane">保存</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+				
+			</form>
 		</script>
 	</body>
+				<!-- <div class="layui-form-item">
+					<label class="layui-form-label">邮箱</label>
+					<div class="layui-input-block">
+						<input type="text" name="email" lay-verify="email"
+							placeholder="请输入您的邮箱" autocomplete="off" class="layui-input">
+					</div>
+				</div> -->
 </html>

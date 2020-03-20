@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -89,6 +90,25 @@ public class DBCon {
 			if(null != obj){
 				for (int i = 0; i < obj.length; i++) {
 					pstmt.setObject(i+1, obj[i]);
+				}
+			}
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		logger.info("¸üÐÂ²Ù×÷£º"+sql);
+		return result;
+	}
+	
+	@SuppressWarnings("null")
+	public int doUpdate(String sql, List<Object> list){
+		int result = 0;
+		conn = this.getConnection();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			if(null != list && !list.isEmpty() && list.size() !=0){
+				for (int i = 0; i < list.size(); i++) {
+					pstmt.setObject(i+1, list.get(i));
 				}
 			}
 			result = pstmt.executeUpdate();

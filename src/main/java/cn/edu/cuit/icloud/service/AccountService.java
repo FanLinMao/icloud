@@ -2,6 +2,7 @@ package cn.edu.cuit.icloud.service;
 
 import java.util.List;
 
+import cn.edu.cuit.icloud.pojo.User;
 import cn.edu.cuit.icloud.vo.AccountVO;
 
 /**
@@ -13,4 +14,11 @@ public interface AccountService {
 	
 	public List<AccountVO> getAllAccount();
 	
+	public boolean updateAccountIsEnableById(int userId, int status);
+	
+	public boolean registerUser(User user);
+	
+	public boolean batchDelUser(String ids);
+	
+	public boolean updateAccount(User user);
 }

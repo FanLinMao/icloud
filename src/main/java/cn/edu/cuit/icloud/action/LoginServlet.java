@@ -81,6 +81,7 @@ public class LoginServlet extends HttpServlet {
 			userVO.setUser(user);
 			List<Menu> menuList = menuService.findMenuByRole(user.getRole());
 			boolean fold = menuService.IsMenuFold(user.getRole());
+			logger.info("ÊÇ·ñÕÛµþ²Ëµ¥£º"+fold);
 			userVO.setFold(fold);
 			if(null != menuList){
 				userVO.setMenuList(menuList);

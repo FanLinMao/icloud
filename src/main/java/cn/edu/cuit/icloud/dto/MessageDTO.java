@@ -15,6 +15,9 @@ public class MessageDTO {
 	/**状态码**/
 	private int code;
 	
+	/**传输数据量**/
+	private int count;
+	
 	/**传输数据**/
 	private Object data;
 
@@ -40,6 +43,23 @@ public class MessageDTO {
 
 	public void setData(Object data) {
 		this.data = data;
+		if("".equals(data) || null == data){
+			this.data = null;
+		}
+		
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	@Override
+	public String toString() {
+		return "{\"msg\":\"" + msg + "\", \"code\":" + code + ", \"count\":" + count + ", \"data\":" + data + "}";
 	}
 	
 	

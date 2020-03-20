@@ -2,6 +2,9 @@ package cn.edu.cuit.icloud.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import cn.edu.cuit.icloud.common.DBCon;
 import cn.edu.cuit.icloud.pojo.User;
@@ -53,10 +56,49 @@ public abstract class GenericDao {
 		return status;
 	}
 	public int updateUser(User user){
-		String sql = "update sys_user set username=?,password=?,role=?,phone=?,email=?,wechat=?,enable=? where user_id=?";
-		int status = dbc.doUpdate(sql, new Object[]{user.getUsername(),user.getPassword(),
-											user.getRole(),user.getPhone(),user.getEmail(),
-											user.getWechat(),user.getEnable(),user.getUserId()});
+		StringBuffer sql = new StringBuffer("update sys_user set");
+		List<Object> params = new ArrayList<Object>();
+		try{
+			if(Objects.isNull(user.getUserId())){
+				return 0;
+			}
+		}catch(Exception e){
+			System.out.println("【更新账户】：请设置userId");
+			return 0;
+		}
+		if(!Objects.isNull(user.getUsername())){
+			sql.append(" username=?,");
+			params.add(user.getUsername());
+		}
+		//密码不填则默认
+		if(!Objects.isNull(user.getPassword()) && !"".equals(user.getPassword())){
+			sql.append(" password=?,");
+			params.add(user.getPassword());
+		}
+		if(!Objects.isNull(user.getRole())){
+			sql.append(" role=?,");
+			params.add(user.getRole());
+		}
+		if(!Objects.isNull(user.getPhone())){
+			sql.append(" phone=?,");
+			params.add(user.getPhone());
+		}
+		if(!Objects.isNull(user.getEmail())){
+			sql.append(" email=?,");
+			params.add(user.getEmail());
+		}
+		if(!Objects.isNull(user.getWechat())){
+			sql.append(" wechat=?,");
+			params.add(user.getWechat());
+		}
+		if(!Objects.isNull(user.getEnable())){
+			sql.append(" enable=?,");
+			params.add(user.getEnable());
+		}
+		sql.replace(sql.lastIndexOf(","), sql.length(), "");
+		sql.append(" where user_id=?");
+		params.add(user.getUserId());
+		int status = dbc.doUpdate(sql.toString(), params);
 		dbc.close();
 		return status;
 	}

@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String contextPath = request.getContextPath(); //  path = "/travel"
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath+"/"; // basePath="http://localhost:8080/travel/"
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,6 +16,7 @@
 <link rel="stylesheet" href="./layui/css/layui.css">
 </head>
 <body class="layui-layout-body">
+<input type="hidden" name="basePath" value="<%=basePath %>">
 	<div class="layui-layout layui-layout-admin">
 		<div class="layui-header layui-bg-green">
 			<div class="layui-logo"
@@ -22,7 +27,7 @@
 						src="http://t.cn/RCzsdCq" class="layui-nav-img"> <c:out value="${vo.user.username }"></c:out>
 				</a> 
 				</li>
-				<li class="layui-nav-item"><a href="javascript:void(0);">退出</a></li>
+				<li id="logout" class="layui-nav-item"><a href="javascript:void(0);">注销</a></li>
 			</ul>
 		</div>
 
@@ -30,7 +35,7 @@
 			<div class="layui-side-scroll">
 				<%-- 左侧导航区域（可配合layui已有的垂直导航） --%>
 				<%-- 折叠菜单按钮 --%>
-				<c:if test="${vo.fold eq true } ">
+				<c:if test="${vo.fold}">
 				<div id="slide-btn" style="width: 100%;height: 20px;text-align: left;border-bottom: 1px solid #737383;border-top: 1px solid #737383;">
 				  	<i class="layui-icon layui-icon-shrink-right" style="position: relative;top: 2px;left: 80px;color: #8D8D8D;font-size: 12px;"></i>
 			  	</div>
@@ -56,9 +61,10 @@
 	<script type="text/javascript" src="./layui/lay/modules/jquery.js"></script>
 	<script>
 	//加载lay组件
-	layui.use(['element','jquery'], function(){
+	layui.use(['element','jquery','layer'], function(){
 	  var element = layui.element;
 	  var $ = layui.jquery;
+	  var layer = layui.layer;
 		//iframe自适应
 	  	$(window).on('resize', function(){
 	  		var $content = $('.layui-body');
@@ -113,6 +119,28 @@
 	              isShow =true;
 	          }
 	      });
+	      var basepath = $("input[name='basePath']").val();
+	      //退出
+	      $("#logout").click(function(){
+	    	  var loading = layer.load(2);
+	    	  $.ajax({
+	    		  url: basepath + 'logout'
+	    		  ,type: 'post'
+	    		  ,data: {}
+	    	  		,success: function(res){
+	    	  			if(res.code === 200){
+	    	  				layer.close(loading);
+	    	  				window.location.href = basepath + 'login';
+	    	  			}else{
+	    	  				
+	    	  			}
+	    	  		}
+	    	  		,error: function(xhr,s,e){
+	    	  			layer.alert('出错：'+xhr.readtState+","+s+","+e);
+	    	  		}
+	    	  })
+	      })
+	      
 	});
 	
 	

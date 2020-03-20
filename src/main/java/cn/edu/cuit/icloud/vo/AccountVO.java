@@ -12,6 +12,8 @@ public class AccountVO {
 	
 	private String user;
 	
+	private String pass;
+	
 	private String role;
 	
 	private String permission;
@@ -56,6 +58,14 @@ public class AccountVO {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	
