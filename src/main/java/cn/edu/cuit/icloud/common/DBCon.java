@@ -71,6 +71,8 @@ public class DBCon {
 			result = pstmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("sql执行异常："+e.getMessage());
+			return null;
 		}
 		logger.info("查询操作："+sql);
 		return result;
@@ -95,6 +97,8 @@ public class DBCon {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("sql执行异常："+e.getMessage());
+			return 0;
 		}
 		logger.info("更新操作："+sql);
 		return result;
@@ -114,6 +118,8 @@ public class DBCon {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("sql执行异常："+e.getMessage());
+			return 0;
 		}
 		logger.info("更新操作："+sql);
 		return result;

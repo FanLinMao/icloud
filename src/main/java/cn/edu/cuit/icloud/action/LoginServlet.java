@@ -1,10 +1,12 @@
 package cn.edu.cuit.icloud.action;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import cn.edu.cuit.icloud.pojo.Menu;
 import cn.edu.cuit.icloud.pojo.User;
 import cn.edu.cuit.icloud.service.MenuService;
 import cn.edu.cuit.icloud.service.impl.MenuServiceImpl;
+import cn.edu.cuit.icloud.utils.MD5Util;
 import cn.edu.cuit.icloud.vo.UserVO;
 
 /**
@@ -67,7 +70,7 @@ public class LoginServlet extends HttpServlet {
 		if((!"".equals(username) || null != username)
 				&& (!"".equals(password) || null != password)
 				&& (!"".equals(role) || null != role)){
-						UserDTO userDTO = new UserDTO(username,password,Integer.valueOf(role));
+						UserDTO userDTO = new UserDTO(username, MD5Util.encryMD5(password), Integer.valueOf(role));
 						LoginContext context = new LoginContext(userDTO);
 						try {
 							user = context.login();
@@ -87,6 +90,18 @@ public class LoginServlet extends HttpServlet {
 				userVO.setMenuList(menuList);
 			}
 			request.getSession().setAttribute("vo", userVO);
+			
+			Cookie nameCookie = new Cookie("username",URLEncoder.encode(user.getUsername(), "UTF-8"));
+			Cookie idCookie = new Cookie("uid",URLEncoder.encode(user.getUserId()+"", "UTF-8"));
+			// 为两个 Cookie 设置过期日期为 24 小时后
+			nameCookie.setMaxAge(60*60*24); 
+			idCookie.setMaxAge(60*60*24); 
+			nameCookie.setPath(request.getContextPath());
+			idCookie.setPath(request.getContextPath());
+			// 添加 Cookie信息
+	        response.addCookie(nameCookie);
+	        response.addCookie(idCookie);
+
 			MessageDTO msgDTO = new MessageDTO();
 			msgDTO.setCode(Result.SUCCESS.getCode());
 			msgDTO.setMsg(Result.SUCCESS.getMsg());

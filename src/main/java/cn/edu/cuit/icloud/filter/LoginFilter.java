@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * µÇÂ¼À¹½ØÆ÷
  */
-/*@WebFilter(value={"/*"},initParams={@WebInitParam(name="ignoreTypes",value="png,jpg,js,css,gif,bmp,flash")})*/
+@WebFilter(value={"/*"},initParams={@WebInitParam(name="ignoreTypes",value="png,jpg,js,css,gif,bmp,flash")})
 public class LoginFilter implements Filter {
 
 	private String[] ignoreTypes;
@@ -41,7 +41,7 @@ public class LoginFilter implements Filter {
 		// place your code here
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
-		Object user = request.getSession().getAttribute("u");
+		Object user = request.getSession().getAttribute("vo");
 		String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String url = requestUri.substring(contextPath.length());

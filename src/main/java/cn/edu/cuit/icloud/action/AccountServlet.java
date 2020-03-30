@@ -18,6 +18,7 @@ import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.pojo.User;
 import cn.edu.cuit.icloud.service.AccountService;
 import cn.edu.cuit.icloud.service.impl.AccountServiceImpl;
+import cn.edu.cuit.icloud.utils.MD5Util;
 import cn.edu.cuit.icloud.vo.AccountVO;
 
 /**
@@ -89,10 +90,11 @@ public class AccountServlet extends HttpServlet {
 		}else if("add".equals(action)){//ÃÌº””√ªß
 			String username = req.getParameter("username").trim();
 			String password = req.getParameter("password").trim();
+			String newpass = MD5Util.encryMD5(password);
 			int role = Integer.valueOf(req.getParameter("role"));
 			int status = Integer.valueOf(req.getParameter("enable"));
 			User user = new User.Builder().setUsername(username)
-										.setPassword(password)
+										.setPassword(newpass)
 										.setRole(role)
 										.setEnable(status)
 										.builder();

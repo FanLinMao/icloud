@@ -56,7 +56,7 @@ public class StudentServiceImpl implements UserService,LoginService {
 
 	@Override
 	public User login(UserDTO user) {
-		
+		logger.info("Ñ§ÉúµÇÂ¼");
 		return stuDao.login(user.getUsername(), user.getPassword(), user.getRole());
 	}
 

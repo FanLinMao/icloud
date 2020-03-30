@@ -14,13 +14,23 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>icloud云平台</title>
 <link rel="stylesheet" href="./layui/css/layui.css">
+<style type="text/css">
+  #slide-btn:hover{
+	  background-color:#4E5465;
+  }
+</style>
+<script type="text/javascript">
+	window.onload = function(){
+		document.getElementById('slide-btn').click();
+	}
+</script>
 </head>
 <body class="layui-layout-body">
 <input type="hidden" name="basePath" value="<%=basePath %>">
 	<div class="layui-layout layui-layout-admin">
-		<div class="layui-header layui-bg-green">
+		<div class="layui-header layui-bg-black">
 			<div class="layui-logo"
-				style="color: #ffffff; font-size: 30px; font-weight: bold">icloud云平台</div>
+				style="color: #ffffff; font-size: 16px;">iCloud上机系统</div>
 			
 			<ul class="layui-nav layui-layout-right">
 				<li class="layui-nav-item"><a href="javascript:void(0);"> <img
@@ -31,16 +41,16 @@
 			</ul>
 		</div>
 
-		<div class="layui-side layui-bg-black">
+		<div class="layui-side layui-bg-cyan">
 			<div class="layui-side-scroll">
 				<%-- 左侧导航区域（可配合layui已有的垂直导航） --%>
 				<%-- 折叠菜单按钮 --%>
 				<c:if test="${vo.fold}">
 				<div id="slide-btn" style="width: 100%;height: 20px;text-align: left;border-bottom: 1px solid #737383;border-top: 1px solid #737383;">
-				  	<i class="layui-icon layui-icon-shrink-right" style="position: relative;top: 2px;left: 80px;color: #8D8D8D;font-size: 12px;"></i>
+				  	<i class="layui-icon layui-icon-shrink-right" style="position: relative;top: 4px;left: 80px;color: #8D8D8D;font-size: 12px;"></i>
 			  	</div>
 			  	</c:if>
-				<ul class="layui-nav layui-nav-tree" lay-filter="left-menu">
+				<ul class="layui-nav layui-nav-tree layui-bg-cyan" lay-filter="left-menu">
 					<c:forEach items="${vo.menuList}" var="menu">
 						<li class="layui-nav-item"><a href="${menu.menuHref }"><i class="${menu.menuIcon }"></i><span>&nbsp;&nbsp;</span><span><c:out value="${menu.menuTitle }"></c:out></span></a></li>
 					</c:forEach>
@@ -94,12 +104,12 @@
 	          });
 	          //判断isshow的状态
 	          if(isShow){
-	              $('.layui-side.layui-bg-black').width(60); //设置宽度
-	              $('#slide-btn i').css('left', '22px');  //修改图标的位置
-	              $('#slide-btn i').removeClass('layui-icon layui-icon-shrink-right');
+	        	  $(".layui-side.layui-bg-cyan").animate({width:'60px'},500);
+	        	  $('#slide-btn i').animate({left: '22px'},500);
+	        	  $('#slide-btn i').removeClass('layui-icon layui-icon-shrink-right');
 	              $('#slide-btn i').addClass('layui-icon layui-icon-app');  //修改图标样式
-	              $('.layui-body').css('left', '60px');
-	              $('.layui-footer').css('left', '60px');
+	        	  $('.layui-body').animate({left:'60px'},500);
+	              $('.layui-footer').animate({left:'60px'},500);
 	              //二级导航栏隐藏
 	             /* $('dd span').each(function(){
 	                  $(this).hide();
@@ -107,15 +117,12 @@
 	              //修改标志位
 	              isShow =false;
 	          }else{
-	              $('.layui-side.layui-bg-black').width(200);
-	              $('#slide-btn i').css('left', '80px');
-				  $('#slide-btn i').removeClass('layui-icon layui-icon-app');
+	        	  $(".layui-side.layui-bg-cyan").animate({width:'200px'},500);
+	        	  $('#slide-btn i').animate({left: '80px'},500);
+	        	  $('#slide-btn i').removeClass('layui-icon layui-icon-app');
 				  $('#slide-btn i').addClass('layui-icon layui-icon-shrink-right');  //修改图标样式
-	              $('.layui-body').css('left', '200px');
-	              $('.layui-footer').css('left', '200px');
-	              /* $('dd span').each(function(){
-	                  $(this).show();
-	              }); */
+	        	  $('.layui-body').animate({left:'200px'},500);
+	              $('.layui-footer').animate({left:'200px'},500);
 	              isShow =true;
 	          }
 	      });
