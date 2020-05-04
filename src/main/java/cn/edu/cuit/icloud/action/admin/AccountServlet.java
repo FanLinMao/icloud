@@ -1,4 +1,4 @@
-package cn.edu.cuit.icloud.action;
+package cn.edu.cuit.icloud.action.admin;
 
 import java.io.IOException;
 import java.util.List;

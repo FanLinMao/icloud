@@ -107,6 +107,8 @@ public class TeacherDao extends GenericDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return list;
+		}finally {
+			getJdbc().close();
 		}
 		return list;
 		
@@ -245,6 +247,8 @@ public class TeacherDao extends GenericDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			getJdbc().close();
 		}
 		return list;
 	}

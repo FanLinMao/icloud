@@ -16,10 +16,10 @@
 		</blockquote>
 		<!-- 按钮 -->
 		<div class="layui-btn-container">
-		  <button type="button" class="layui-btn">
+		  <button type="button" data-method="add" data-type="auto" class="layui-btn">
 		    <i class="layui-icon">&#xe608;</i> 定时计划
 		  </button>
-		  <button type="button" class="layui-btn">
+		  <button type="button" data-method="del" data-type="auto" class="layui-btn">
 		    <i class="layui-icon">&#xe608;</i> 批量删除
 		  </button>
 		</div>
@@ -31,12 +31,72 @@
 		
 		
 		<script type="text/html" id="row-opBar">
-		  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">查看</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a> -->
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">修改</a>
+		  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">查看</a> 
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
 		</script>
 		<script type="text/html" id="switchTpl">
-		  <input type="checkbox" name="action" value="{{d.id}}" lay-skin="switch" lay-text="ON|OFF" lay-filter="openStatus" {{ d.id == 10003 ? 'checked' : '' }}>
+		  <input type="checkbox" name="action" value="{{d.taskId}}" lay-skin="switch" lay-text="ON|OFF" lay-filter="openStatus" {{ d.status == 1 ? 'checked' : '' }}>
+		</script>
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form layui-form-pane" lay-filter="tipsform">
+				<input type="hidden" name="taskId" value=""/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">定时频率</label>
+					<div class="layui-input-block">
+						<select name="frequence" required lay-verify="required" lay-filter="freq">
+							<option value=""></option>
+							<option value="daily">每天</option>
+							<option value="weekly">每周</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">定时循环</label>
+					<div class="layui-input-block">
+						<select name="cycle">
+							<option value=""></option>
+							<option value="SUN">周日</option>
+                            <option value="MON">周一</option>
+                            <option value="TUE">周二</option>
+                            <option value="WED">周三</option>
+                            <option value="THU">周四</option>
+                            <option value="FRI">周五</option>
+                            <option value="SAT">周六</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">定时时间</label>
+      				<div class="layui-input-block">
+        				<input type="text" name="time" class="layui-input" id="idate" placeholder="HH:mm:ss">
+      				</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">行为</label>
+					<div class="layui-input-block">
+						<select name="action">
+							<option value=""></option>
+							<option value="0">关机</option>
+                            <option value="1">开机</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item" pane>
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="启用|关闭" lay-filter="taskStatus" checked>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="layerPane">保存</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+				
+			</form>
 		</script>
 	</body>
 </html>

@@ -64,6 +64,7 @@ public class UrlUtil {
 		StringBuilder str = new StringBuilder();
 		map.forEach((k,v)->{
 			try {
+				//URLEncoder会将空格编码成"+"号，而在浏览器http请求的url中需要将"+"号编码成%20。编码可参阅www.w3school.com.cn。
 				String encoded_v = URLEncoder.encode(String.valueOf(v), "UTF-8").replaceAll("\\+", "%20");
 				str.append(k).append("=").append(encoded_v).append("&");
 			} catch (Exception e) {

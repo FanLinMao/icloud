@@ -23,7 +23,7 @@ import cn.edu.cuit.icloud.utils.UrlUtil;
 
 /**
  * TODO
- * @date: 2020年4月1日
+ * @date: 
  * @author: flfan
  */
 public class HttpClientTest {
@@ -47,11 +47,12 @@ public class HttpClientTest {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testHttpClientUitl() throws Exception{
 		String baseUrl = "http://localhost:8080/client/api?";
-		String security = "H65hqe7U-T59TwpD2-0dNYbfcDYKaAnrQQoTFghyiMhMCrGm-pLJV5hGPc8fTHqn6XYxUowJNxjMXxilp4VY2Q";
-		String apikey = "2n9_BGYlgUjLZMiHZi5U58_88QCcWLYHwm80WYoc8rd91XMsnlZ4kD9xvg3AMBKpuxz3P8OwOwJhtX-HpelrFg";
+		String security = "Jbaf6WhLvnRmCTKsJIASJywbBtte5UpwZ1SZybJsiOjE8-aVSB5EgIBQU3lKwbGUQn84iu-aELo0FTFX22jpkQ";
+		String apikey = "_LA4fIGlLjqWaurlIWYJfdIGhd3j_JT0UakUVPGrV9sAkbSxYJvIX5BhWvmMVm_Nju35N7OCkFP6n8-P93J6vQ";
 		
 		TreeMap treeMap = new TreeMap((v1,v2)->{
 			if(v1 == null || v2 == null){
@@ -90,43 +91,26 @@ public class HttpClientTest {
 		String reponseContent = httpClient.sendHttpGet(httpUrl);
 		System.out.println(reponseContent);
 	}
-	@Test
-	public void testRequestURL() throws Exception{
-		String baseUrl = "http://localhost:8080/client/api";
-		String security = "H65hqe7U-T59TwpD2-0dNYbfcDYKaAnrQQoTFghyiMhMCrGm-pLJV5hGPc8fTHqn6XYxUowJNxjMXxilp4VY2Q";
-		String apikey = "   2n9_BGYlgUjLZMiHZi5U58_88QCcWLYHwm80WYoc8rd91XMsnlZ4kD9xvg3AMBKpuxz3P8OwOwJhtX-HpelrFg";
-		String encodedApiKey = URLEncoder.encode(apikey, "UTF-8").replaceAll("\\+", "%20");
-		String urlold = "apikey=" + encodedApiKey + "&command=listUsers";
-		urlold = urlold.toLowerCase();
-		String signature = signRequest(urlold, security);
-		String encodedSignature = URLEncoder.encode(signature, "UTF-8").replaceAll("\\+","%20");
-		System.out.println(encodedSignature);
-		String url = baseUrl+"?command=listUsers&apikey="+encodedApiKey+"&response=json"+"&signature="+encodedSignature;
-		System.out.println(url);
-		HttpClientUtil httpClient = HttpClientUtil.getInstance();
-		String content = httpClient.sendHttpGet(url);
-		System.out.println(content);
-	}
+	
 
-	private String signRequest(String request, String secretkey) throws Exception {
+	/*private String signRequest(String request, String secretkey) throws Exception {
 		Mac mac = Mac.getInstance("HmacSHA1");
 		SecretKeySpec keySpec = new SecretKeySpec(secretkey.getBytes(),"HmacSHA1");
 		mac.init(keySpec);
 		mac.update(request.getBytes());
 		byte[] encryptedBytes = mac.doFinal();
 		return new String(Base64.encodeBase64(encryptedBytes));
-	}
-	@Test
-	public void testStrAdd(){
-		String replace = "+++2n9_BGYlgUjLZMiHZi5U58_88QCcWLYHwm80WYoc8rd91XMsnlZ4kD9xvg3AMBKpuxz3P8OwOwJhtX-HpelrFg".replaceAll("\\+", "%20");
-		System.out.println(replace);
-	}
+	}*/
+	
 	@Test
 	public void testUrlUtil(){
 		HashMap<String, Object> treeMap = new HashMap<String,Object>();
 		treeMap.put("command", "listUsers");
 		String createUrl = UrlUtil.createUrl(treeMap);
 		System.out.println(createUrl);
+		HttpClientUtil httpClient = HttpClientUtil.getInstance();
+		String reponseContent = httpClient.sendHttpGet(createUrl);
+		System.out.println(reponseContent);
 	}
 	
 }

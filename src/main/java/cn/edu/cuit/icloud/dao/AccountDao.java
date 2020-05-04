@@ -33,6 +33,8 @@ public class AccountDao extends GenericDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			getJdbc().close();
 		}
 		return accountList;
 	}
@@ -40,12 +42,14 @@ public class AccountDao extends GenericDao{
 	public int updateAccountStatus(int userId, int status){
 		String sql = "update sys_user u set u.enable= ? where user_id = ?";
 		int res = getJdbc().doUpdate(sql, new Object[]{status,userId});
+		getJdbc().close();
 		return res;
 	}
 	
 	public int batchDeleteUserByIds(String ids){
 		String sql = "delete u from sys_user u where u.user_id in ("+ids+")";
 		int res = getJdbc().doUpdate(sql, new Object[]{});
+		getJdbc().close();
 		return res;
 	}
 }
