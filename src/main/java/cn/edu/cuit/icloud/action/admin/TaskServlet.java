@@ -1,10 +1,12 @@
 package cn.edu.cuit.icloud.action.admin;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,9 @@ import com.google.gson.Gson;
 
 import cn.edu.cuit.icloud.constant.Result;
 import cn.edu.cuit.icloud.dto.MessageDTO;
+import cn.edu.cuit.icloud.scheduler.BootUp;
+import cn.edu.cuit.icloud.scheduler.ShutDown;
+import cn.edu.cuit.icloud.scheduler.TaskManager;
 import cn.edu.cuit.icloud.service.impl.AdminServiceImpl;
 import cn.edu.cuit.icloud.vo.TaskVO;
 
@@ -48,10 +53,29 @@ public class TaskServlet extends HttpServlet{
 		//开关监听
 		int taskId = Integer.valueOf(req.getParameter("taskId"));
 		int status = Integer.valueOf(req.getParameter("status"));
+		TaskVO task = adminService.findTaskById(taskId);
 		if(adminService.updateStatus(taskId, status)) {
 			dto.setData(null);
 			dto.setCode(Result.SUCCESS.getCode());
 			dto.setCount(1);
+			if(null != task) {
+				String cron = "";
+				String[] split = task.getTime().split(":");
+				String action = task.getAction();
+				if("daily".equals(task.getFrequence())) {
+					//生成cron表达式
+					cron = split[2]+" "+split[1]+" "+split[0]+" "+"*"+" "+"*"+" "+"?";
+				}else {
+					String cycle = task.getCycle();
+					cron = split[2]+" "+split[1]+" "+split[0]+" "+"?"+" "+"*"+" "+cycle;
+				}
+				//操作定时任务
+				if(status == 1) {
+					TaskManager.addJob(task.getJobName(), task.getJobGroupName(), task.getTriggerName(), task.getTriggerGroupName(), action, cron);
+				}else {
+					TaskManager.removeJob(task.getJobName(), task.getJobGroupName(), task.getTriggerName(), task.getTriggerGroupName());
+				}
+			}
 			dto.setMsg("操作成功");
 			logger.info("修改状态成功！");
 		}else {
@@ -89,23 +113,44 @@ public class TaskServlet extends HttpServlet{
 			String time = req.getParameter("time");
 			String action = req.getParameter("action");
 			String status = req.getParameter("status");
+			String cron = "";
+			String[] split = time.split(":");
 			TaskVO task = new TaskVO();
+			String jobName = UUID.randomUUID().toString();
+			String triggerName = UUID.randomUUID().toString();
+			String jobGroupName = "";
+			String triggerGroupName = "";
+			if("1".equals(action)) {
+				jobGroupName = "openJobGroup";
+				triggerGroupName = "openTriggerGroup";
+			}else {
+				jobGroupName = "closeJobGroup";
+				triggerGroupName = "closeTriggerGroup";
+			}
+			task.setTime(time);
+			task.setAction(action);
+			task.setStatus(Integer.valueOf(status));
+			task.setJobName(jobName);
+			task.setJobGroupName(jobGroupName);
+			task.setTriggerName(triggerName);
+			task.setTriggerGroupName(triggerGroupName);
 			if("daily".equals(frequence)) {
 				task.setFrequence(frequence);
-				task.setTime(time);
-				task.setAction(action);
-				task.setStatus(Integer.valueOf(status));
+				//生成cron表达式
+				cron = split[2]+" "+split[1]+" "+split[0]+" "+"*"+" "+"*"+" "+"?";
 			}else {
 				task.setFrequence(frequence);
 				task.setCycle(cycle);
-				task.setTime(time);
-				task.setAction(action);
-				task.setStatus(Integer.valueOf(status));
+				cron = split[2]+" "+split[1]+" "+split[0]+" "+"?"+" "+"*"+" "+cycle;
 			}
 			if(adminService.addTask(task)) {
 				dto.setData(null);
 				dto.setCode(Result.SUCCESS.getCode());
 				dto.setCount(1);
+				//获取状态，添加定时任务
+				if(Integer.valueOf(status) == 1) {
+					TaskManager.addJob(jobName, jobGroupName, triggerName, triggerGroupName, action, cron);
+				}
 				dto.setMsg("添加定时任务成功！");
 				logger.info("添加定时任务成功！");
 			} else {
@@ -118,6 +163,12 @@ public class TaskServlet extends HttpServlet{
 			
 		}else if("del".equals(op)) {
 			String taskIds = req.getParameter("ids");
+			List<TaskVO> tasks = adminService.findTasksByIds(taskIds);
+			if(null != tasks && !tasks.isEmpty()) {
+				tasks.stream().parallel().forEach(s->{
+					TaskManager.removeJob(s.getJobName(), s.getJobGroupName(), s.getTriggerName(), s.getTriggerGroupName());
+				});
+			}
 			String[] ids = taskIds.split(",");
 			if(adminService.batchDeleteTask(taskIds)) {
 				dto.setData(null);
@@ -139,25 +190,34 @@ public class TaskServlet extends HttpServlet{
 			String time = req.getParameter("time");
 			String action = req.getParameter("action");
 			String status = req.getParameter("status");
+			String jobName = req.getParameter("jobName");
+			String jobGroupName = req.getParameter("jobGroupName");
+			String triggerName = req.getParameter("triggerName");
+			String triggerGroupName = req.getParameter("triggerGroupName");
+			String cron = "";
+			String[] split = time.split(":");
 			TaskVO task = new TaskVO();
+			task.setTime(time);
+			task.setAction(action);
+			task.setStatus(Integer.valueOf(status));
+			task.setTaskId(Integer.valueOf(taskId));
 			if("daily".equals(frequence)) {
-				task.setTaskId(Integer.valueOf(taskId));
 				task.setFrequence(frequence);
-				task.setTime(time);
-				task.setAction(action);
-				task.setStatus(Integer.valueOf(status));
+				task.setCycle(" ");
+				//生成cron表达式
+				cron = split[2]+" "+split[1]+" "+split[0]+" "+"*"+" "+"*"+" "+"?";
 			}else {
-				task.setTaskId(Integer.valueOf(taskId));
 				task.setFrequence(frequence);
 				task.setCycle(cycle);
-				task.setTime(time);
-				task.setAction(action);
-				task.setStatus(Integer.valueOf(status));
+				cron = split[2]+" "+split[1]+" "+split[0]+" "+"?"+" "+"*"+" "+cycle;
 			}
 			if(adminService.editTask(task)) {
 				dto.setData(null);
 				dto.setCode(Result.SUCCESS.getCode());
 				dto.setCount(1);
+				if(Integer.valueOf(status) == 1) {
+					TaskManager.modifyJobTime(jobName, jobGroupName, triggerName, triggerGroupName, cron);
+				}
 				dto.setMsg("修改定时任务成功！");
 				logger.info("修改定时任务成功！");
 			} else {
@@ -169,6 +229,13 @@ public class TaskServlet extends HttpServlet{
 			}
 		}
 		resp.getWriter().write(dto.toString());
+	}
+	
+	private String getWeek(String date){
+		LocalDate parse = LocalDate.parse(date);
+		DayOfWeek dayOfWeek = parse.getDayOfWeek();
+		String name = dayOfWeek.name();
+		return name;
 	}
 	
 }

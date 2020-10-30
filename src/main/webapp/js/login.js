@@ -16,11 +16,23 @@ layui.use(['element','form','jquery','layer'], function(){
 			 layer.close(index);
 			 if(data.code === 200){
 				 window.location.href = basepath+'index';
+			 }else{
+				 layer.alert(data.msg);
+				 form.val("loginbox", { 
+					  "username": ""
+					  ,"password": ""
+					  ,"role": ""
+					});
 			 }
 		 },
 		 error: function (XMLHttpRequest, textStatus, errorThrown) {
 			 layer.close(index);
-			 alert(XMLHttpRequest.readyState+","+textStatus+","+errorThrown);
+			 layer.alert(XMLHttpRequest.readyState+","+textStatus+","+errorThrown);
+			 form.val("loginbox", { 
+				  "username": ""
+				  ,"password": ""
+				  ,"role": ""
+				});
 		}
 	  });
 	  //return false;

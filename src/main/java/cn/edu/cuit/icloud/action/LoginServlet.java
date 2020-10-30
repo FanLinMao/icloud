@@ -59,27 +59,29 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*StringBuilder msg = new StringBuilder();*/
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
-		
+		//获取用户名和密码，去两边的空格，获取用户角色
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
 		String role = request.getParameter("role");
 		User user = null;
-		if((!"".equals(username) || null != username)
-				&& (!"".equals(password) || null != password)
-				&& (!"".equals(role) || null != role)){
+		MessageDTO dto = null;
+		if((null != username && !"".equals(username))
+				&& (null != password && !"".equals(password))
+				&& (null != role && !"".equals(role))){
 						UserDTO userDTO = new UserDTO(username, MD5Util.encryMD5(password), Integer.valueOf(role));
+						//执行登录上下文，根据角色获取用户信息
 						LoginContext context = new LoginContext(userDTO);
 						try {
-							user = context.login();
+							dto = context.login();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 				}
-		if(null != user.getUsername() || !"".equals(user.getUsername())){
+		if(200 == dto.getCode()) {
+			user = (User)dto.getData();
 			UserVO userVO = new UserVO();
 			userVO.setUser(user);
 			List<Menu> menuList = menuService.findMenuByRole(user.getRole());
@@ -91,16 +93,12 @@ public class LoginServlet extends HttpServlet {
 			}
 			request.getSession().setAttribute("vo", userVO);
 			
-			Cookie nameCookie = new Cookie("username",URLEncoder.encode(user.getUsername(), "UTF-8"));
-			Cookie idCookie = new Cookie("uid",URLEncoder.encode(user.getUserId()+"", "UTF-8"));
+			Cookie nameCookie = new Cookie("r",URLEncoder.encode(user.getRole()+"", "UTF-8"));
 			// 为两个 Cookie 设置过期日期为 24 小时后
 			nameCookie.setMaxAge(60*60*24); 
-			idCookie.setMaxAge(60*60*24); 
 			nameCookie.setPath(request.getContextPath());
-			idCookie.setPath(request.getContextPath());
 			// 添加 Cookie信息
 	        response.addCookie(nameCookie);
-	        response.addCookie(idCookie);
 
 			MessageDTO msgDTO = new MessageDTO();
 			msgDTO.setCode(Result.SUCCESS.getCode());
@@ -113,14 +111,10 @@ public class LoginServlet extends HttpServlet {
 			/*String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath+"/index");*/
 		}else{
-			MessageDTO msgDTO = new MessageDTO();
-			msgDTO.setCode(Result.FAILURE.getCode());
-			msgDTO.setMsg(Result.FAILURE.getMsg());
-			msgDTO.setData("");
 			Gson gson = new Gson();
-			String json = gson.toJson(msgDTO);
+			String json = gson.toJson(dto);
 			response.getWriter().write(json);
-			logger.error("登录失败");
+			logger.error("登录失败："+dto.getMsg());
 		}
 		
 		//request.getRequestDispatcher("/index.jsp").forward(request, response);

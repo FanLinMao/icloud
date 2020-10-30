@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import cn.edu.cuit.icloud.annotation.Role;
 import cn.edu.cuit.icloud.constant.RoleEnum;
 import cn.edu.cuit.icloud.dao.TeacherDao;
+import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.dto.UserDTO;
 import cn.edu.cuit.icloud.pojo.Event;
 import cn.edu.cuit.icloud.pojo.User;
@@ -93,6 +94,20 @@ public class TeacherServiceImpl implements UserService,LoginService {
 	
 	public boolean addArrange(ArrangeVO arrangeVO){
 		return teacherDao.addArrange(arrangeVO) > 0;
+	}
+	
+	public List<String> listRoomAddrs() {
+		return teacherDao.findRoomAddress();
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.edu.cuit.icloud.service.LoginService#loginCheck(cn.edu.cuit.icloud.dto.UserDTO)
+	 */
+	@Override
+	public MessageDTO loginCheck(UserDTO user) {
+		// TODO Auto-generated method stub
+		return teacherDao.loginCheck(user.getUsername(), user.getPassword(), user.getRole());
 	}
 	
 }

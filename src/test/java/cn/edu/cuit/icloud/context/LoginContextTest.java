@@ -2,6 +2,7 @@ package cn.edu.cuit.icloud.context;
 
 import org.junit.Test;
 
+import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.dto.UserDTO;
 import cn.edu.cuit.icloud.pojo.User;
 
@@ -16,7 +17,7 @@ public class LoginContextTest {
 	public void testLoginContext() throws Exception{
 		UserDTO userDTO = new UserDTO("admin","123456",1);
 		LoginContext loginContext = new LoginContext(userDTO);
-		User login = loginContext.login();
-		System.out.println(login.getUsername());
+		MessageDTO login = loginContext.login();
+		System.out.println(login);
 	}
 }

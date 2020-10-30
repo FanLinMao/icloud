@@ -18,17 +18,17 @@
 		</blockquote>
 		<!-- 按钮栏 -->
 		<div class="layui-btn-container">
-		  <button type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-refresh"></i></button>
-		  <button type="button" class="layui-btn layui-btn-primary">
+		  <button type="button" class="layui-btn layui-btn-primary" data-method="rebootVirtualMachine" data-type="auto"><i class="layui-icon layui-icon-refresh"></i></button>
+		  <button type="button" class="layui-btn layui-btn-primary" data-method="deployVirtualMachine" data-type="auto">
 		    <i class="layui-icon layui-icon-add-circle-fine"></i> 新建
 		  </button>
-		  <button type="button" class="layui-btn layui-btn-primary">
+		  <button type="button" class="layui-btn layui-btn-primary" data-method="startVirtualMachine" data-type="auto">
 			<i class="layui-icon layui-icon-triangle-r" style="color: seagreen;"></i>启动
 		  </button> 
-		  <button type="button" class="layui-btn layui-btn-primary">
+		  <button type="button" class="layui-btn layui-btn-primary" data-method="stopVirtualMachine" data-type="auto">
 			<i class="layui-icon layui-icon-log"></i> 关机
 		  </button> 
-		  <button type="button" class="layui-btn layui-btn-primary">
+		  <button type="button" class="layui-btn layui-btn-primary" data-method="destroyVirtualMachine" data-type="auto">
 			<i class="layui-icon layui-icon-close"></i>销毁
 		  </button> 
 		</div>
@@ -40,16 +40,44 @@
 		
 		<script type="text/html" id="row-opBar">
 		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="into">进入</a>
-		  <a class="layui-btn layui-btn-xs" lay-event="open">开机</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close">关机</a>
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="make">制作</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="startVirtualMachine">开机</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stopVirtualMachine">关机</a>
+		  <!-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="make">制作</a> -->
 		</script>
-		<script>
-			//加载lay组件
-			layui.use('element', function(){
-			  var element = layui.element;
-			  
-			});
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form" lay-filter="tipsform">
+				<input type="hidden" name="vmId" value=""/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="vmName" required lay-verify="username"
+							placeholder="请输入名称" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">系统类型</label>
+					<div class="layui-input-block">
+						<input type="text" name="osType" required lay-verify="username"
+							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="text" name="status" required lay-verify="username"
+							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">内存</label>
+					<div class="layui-input-block">
+						<input type="text" name="storage" required lay-verify="username"
+							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				
+			</form>
 		</script>
 	</body>
 </html>

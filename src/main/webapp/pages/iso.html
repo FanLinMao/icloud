@@ -18,7 +18,10 @@
 		</blockquote>
 		<!-- 按钮栏 -->
 		<div class="layui-btn-container">
-			<button type="button" class="layui-btn layui-btn-fluid">上传ISO</button> 
+			<button type="button" class="layui-btn layui-btn-fluid" id="uploadIso">上传ISO</button> 
+		</div>
+		<div class="layui-progress layui-progress-big" lay-showPercent="yes" style="display:none;width:98%;margin:0px auto;" lay-filter="progressbar" id="progressbar">
+		  <div class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
 		</div>
 		<!-- 表格 -->
 		<div class="layui-btn-container">
@@ -27,8 +30,49 @@
 		
 		
 		<script type="text/html" id="row-opBar">
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" data-type="auto" lay-event="del">删除</a>
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" data-type="auto" lay-event="edit">编辑</a>
+		</script>
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form" lay-filter="tipsform">
+				<input type="hidden" name="id" value=""/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="isoName" required lay-verify="username"
+							placeholder="请输入名称" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">系统类型</label>
+					<div class="layui-input-block">
+						<input type="text" name="osType" required lay-verify="username"
+							autocomplete="off" class="layui-input" disabled>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">大小</label>
+					<div class="layui-input-block">
+						<input type="text" name="osSize" required lay-verify="username"
+							autocomplete="off" class="layui-input" disabled>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">上传者</label>
+					<div class="layui-input-block">
+						<input type="text" name="creator" required lay-verify="username"
+							autocomplete="off" class="layui-input" disabled>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">上传时间</label>
+					<div class="layui-input-block">
+						<input type="text" name="createDate" required lay-verify="username"
+							autocomplete="off" class="layui-input" disabled>
+					</div>
+				</div>
+				
+			</form>
 		</script>
 	</body>
 </html>

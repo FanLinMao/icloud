@@ -94,7 +94,7 @@ public class UrlUtil {
 			basePath.replace(startQues, endQues, "");
 		}
 		String httpUrl = basePath.append(str.toString()).toString();
-		logger.info(httpUrl);
+		logger.info("CloudStack API Request ==>>"+httpUrl);
 		return httpUrl;
 	}
 	//Éú³ÉÇ©Ãû

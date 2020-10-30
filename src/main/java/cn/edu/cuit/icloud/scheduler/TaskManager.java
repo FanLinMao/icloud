@@ -1,5 +1,7 @@
 package cn.edu.cuit.icloud.scheduler;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -12,6 +14,9 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
+
+import cn.edu.cuit.icloud.dao.AdminDao;
+import cn.edu.cuit.icloud.vo.TaskVO;
 
 /**
  * TODO
@@ -31,7 +36,7 @@ public class TaskManager {
 	 * @param jobGroupName 作业组
 	 * @param triggerName 触发器名
 	 * @param triggerGroupName 触发器组
-	 * @param jobClass 要执行的作业类
+	 * @param action 行为
 	 * @param cron 时间表达式
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -39,8 +44,14 @@ public class TaskManager {
 			String jobGroupName, 
 			String triggerName, 
 			String triggerGroupName,
-			Class jobClass, 
+			String action, 
 			String cron) {
+		Class jobClass = null;
+		if("1".equals(action)) {
+			jobClass = BootUp.class;
+		}else {
+			jobClass = ShutDown.class;
+		}
 		try {
 			Scheduler sched = schedulerFactory.getScheduler();
 			// 任务名，任务组，任务执行类
@@ -63,8 +74,9 @@ public class TaskManager {
 			if (!sched.isShutdown()) {
 				sched.start();
 			}
+			logger.info("定时任务addJob "+jobGroupName+"."+jobName+"成功...");
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			logger.error("定时任务addJob "+jobGroupName+"."+jobName+"失败...");
 		}
 	}
 	
@@ -109,9 +121,10 @@ public class TaskManager {
 				// removeJob(jobName, jobGroupName, triggerName, triggerGroupName);
 				// addJob(jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron);
 				/** 方式二 ：先删除，然后在创建一个新的Job */
+				logger.info("定时任务modify "+jobGroupName+"."+jobName+"成功...");
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			logger.error("定时任务modify "+jobGroupName+"."+jobName+"失败...");
 		}
 	}
 
@@ -121,10 +134,8 @@ public class TaskManager {
 	 * @param jobGroupName 作业组
 	 * @param triggerName 触发器
 	 * @param triggerGroupName 
-	 * @return
 	 */
-	public static int removeJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
-		int status = 1;
+	public static void removeJob(String jobName, String jobGroupName, String triggerName, String triggerGroupName) {
 		try {
 			Scheduler sched = schedulerFactory.getScheduler();
 
@@ -133,12 +144,10 @@ public class TaskManager {
 			sched.pauseTrigger(triggerKey);// 停止触发器
 			sched.unscheduleJob(triggerKey);// 移除触发器
 			sched.deleteJob(JobKey.jobKey(jobName, jobGroupName));// 删除任务
-			logger.info("移除定时任务成功...");
+			logger.info("移除定时任务"+jobGroupName+"."+jobName+"成功...");
 		} catch (Exception e) {
-			logger.info("移除定时任务失败！");
-			status = 0;
+			logger.error("移除定时任务"+jobGroupName+"."+jobName+"失败...");
 		}
-		return status;
 	}
 	
 	/**
@@ -148,6 +157,24 @@ public class TaskManager {
 		try {
 			Scheduler sched = schedulerFactory.getScheduler();
 			sched.start();
+			AdminDao adminDAO = new AdminDao();
+			List<TaskVO> tasks = adminDAO.findAllTasks();
+			if(null != tasks) {
+				tasks.forEach(s->{
+					String cron = "";
+					String[] split = s.getTime().split(":");
+					String frequence = s.getFrequence();
+					if(Integer.valueOf(s.getStatus()) == 1) {
+						if("daily".equals(frequence)) {
+							cron = split[2]+" "+split[1]+" "+split[0]+" "+"*"+" "+"*"+" "+"?";
+						}else {
+							String cycle = s.getCycle();
+							cron = split[2]+" "+split[1]+" "+split[0]+" "+"?"+" "+"*"+" "+cycle;
+						}
+						addJob(s.getJobName(), s.getJobGroupName(), s.getTriggerName(), s.getTriggerGroupName(), s.getAction(), cron);
+					}
+				});
+			}
 			logger.info("定时任务已全部开启...");
 		} catch (Exception e) {
 			logger.error("定时任务开启失败："+e.getMessage());

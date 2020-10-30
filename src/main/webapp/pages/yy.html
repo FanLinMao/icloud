@@ -79,9 +79,12 @@
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">地点</label>
-	    <div class="layui-input-block">
-	      <input type="text" id="address" name="address" placeholder="上机地点" autocomplete="off" class="layui-input">
+		<div class="layui-input-block">
+	      	<select name="address" lay-verify="required">
+        		<option value="">--请选择上机地点--</option>
+      		</select>
 	    </div>
+		
 	  </div>
 	</form>
 		</script>

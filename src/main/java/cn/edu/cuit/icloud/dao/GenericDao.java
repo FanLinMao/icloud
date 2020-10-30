@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 import cn.edu.cuit.icloud.common.DBCon;
+import cn.edu.cuit.icloud.constant.Result;
+import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.pojo.User;
 
 /**
@@ -123,6 +125,66 @@ public abstract class GenericDao {
 			dbc.close();
 		}
 		return user;
+	}
+	
+	public MessageDTO loginCheck(String username, String password, int role) {
+		MessageDTO dto = new MessageDTO();
+		String sql = "select username from sys_user where username=?";
+		User user = null;
+		try {
+			ResultSet rs = dbc.doQuery(sql, new Object[]{username});//校验用户名
+			if(!rs.next()) {//用户名不存在
+				dto.setMsg("用户名不存在！");
+				dto.setCode(Result.FAILURE.getCode());
+				dto.setCount(0);
+				return dto;
+			}else {//用户名存在
+				String sql2 = "select user_id,username,password,role,phone,email,wechat,enable from sys_user where username=? and password=?";
+				ResultSet res = dbc.doQuery(sql2, new Object[]{username,password});//校验密码
+				if(!res.next()) {
+					dto.setMsg("密码不正确！");
+					dto.setCode(Result.FAILURE.getCode());
+					dto.setCount(0);
+					return dto;
+				}else {//查询到用户及密码
+					user = new User.Builder().builder();
+					res.beforeFirst();
+					while(res.next()){
+						user.setUserId(res.getInt(1));
+						user.setUsername(res.getString(2));
+						user.setPassword(res.getString(3));
+						user.setRole(res.getInt(4));
+						user.setPhone(res.getString(5));
+						user.setEmail(res.getString(6));
+						user.setWechat(res.getString(7));
+						user.setEnable(res.getInt(8));
+					}
+					if(role != user.getRole()) {//比对用户角色
+						
+						dto.setMsg("角色不正确！");
+						dto.setCode(Result.FAILURE.getCode());
+						dto.setCount(0);
+						return dto;
+					}
+					if(0 == user.getEnable()) {//查看用户是否被禁用
+						dto.setMsg("该用户被禁用，请联系管理员！");
+						dto.setCode(Result.FAILURE.getCode());
+						dto.setCount(0);
+						return dto;
+					}
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			dbc.close();
+		}
+		dto.setMsg("用户校验成功！");
+		dto.setCode(Result.SUCCESS.getCode());
+		dto.setCount(1);
+		dto.setData(user);
+		return dto;
 	}
 	
 	public DBCon getJdbc(){

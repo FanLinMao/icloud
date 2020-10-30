@@ -13,7 +13,25 @@
 		  <p class="my-big-title">上机安排</p>
 		  一、资源预约后的上机安排。
 		</blockquote>
-		
+		<!-- 搜索栏 -->
+		<div class="searchbox" style="width:98%;margin:0px auto;">
+			教师名称：
+			<div class="layui-inline">
+				<input type="text" name="teacher" id="teacher" placeholder="" autocomplete="off" class="layui-input">
+			</div>
+			课程名称：
+			<div class="layui-inline">
+				<input type="text" name="course" id="course" placeholder="" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-inline">
+					<button type="button" class="layui-btn" id="search">搜 索</button>
+			</div>
+			<!-- <div class="layui-inline">
+					<button type="button" class="layui-btn" id="search">搜 索</button>
+			</div> -->
+		</div>
+			
+		<hr class="layui-bg-green">
 		<div class="layui-btn-container">
 			<table class="layui-table" id="lay-table" lay-filter="tb-filter">
 		</div>
@@ -21,9 +39,9 @@
 		
 		
 		<script type="text/html" id="row-opBar">
-		  <a class="layui-btn layui-btn-xs" lay-event="into">编辑</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="open">删除</a>
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="close">确定</a>
+		  <!--<a class="layui-btn layui-btn-xs" lay-event="into">编辑</a>-->
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="sure">确定</a>
 		</script>
 	</body>
 </html>

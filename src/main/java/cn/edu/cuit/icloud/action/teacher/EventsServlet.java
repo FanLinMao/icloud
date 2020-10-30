@@ -45,7 +45,28 @@ public class EventsServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doPost(req, resp);
+		req.setCharacterEncoding("utf-8");
+		resp.setCharacterEncoding("utf-8");
+		resp.setContentType("application/json");
+		String action = req.getParameter("action");
+		MessageDTO dto = new MessageDTO();
+		Gson gson = new Gson();
+		if("listAddr".equals(action)) {
+			List<String> listRoomAddrs = teacherService.listRoomAddrs();
+			if(null != listRoomAddrs && !listRoomAddrs.isEmpty()) {
+				dto.setCode(Result.SUCCESS.getCode());
+				dto.setMsg(Result.SUCCESS.getMsg());
+				dto.setData(listRoomAddrs);
+				dto.setCount(listRoomAddrs.size());
+			}else {
+				dto.setCode(Result.FAILURE.getCode());
+				dto.setMsg(Result.FAILURE.getMsg());
+				dto.setCount(0);
+			}
+		}
+		String json = gson.toJson(dto);
+		resp.getWriter().write(json);
+		//doPost(req, resp);
 	}
 	
 	@Override

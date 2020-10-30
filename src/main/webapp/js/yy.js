@@ -42,6 +42,25 @@ layui.use(['element','jquery','laydate','layer','form'], function(){
       selectable: true,
       selectMirror: true,
       select: function(arg) {
+    	  $.ajax({
+  			url: basepath+'event',
+  			type: 'get',
+  			//async: false,
+  			dataType: 'json',
+  			data:{action: 'listAddr'},
+  			success: function(res){
+  				if(res.code === 200){ 
+  					for(var i = 0 ; i < res.data.length; i++){
+  						 $("select[name=address]").append("<option class='address' value='"+res.data[i]+"'>"+res.data[i]+"</option>")
+  						form.render('select', 'eventform2');
+  					}
+                  }  
+  			},
+  			error: function(xq,s,e){
+  				layer.alert(xq+","+s+","+e, {icon: 2,title:'操作信息'});
+  			}
+  		})
+  		
     	  layer.tab({
     		  area: '600px',
     		  id: 'LAYTB_23',
@@ -99,6 +118,10 @@ layui.use(['element','jquery','laydate','layer','form'], function(){
     			  return false;
     		  }
     		}); 
+    	  //重新渲染动态加载的表单
+    	  form.render(null, 'eventform1');
+          form.render(null, 'eventform2');
+          form.render(null, 'eventform3');
     	  /*layer.open({
     		  type: 1, 
     		  title: '添加预约',

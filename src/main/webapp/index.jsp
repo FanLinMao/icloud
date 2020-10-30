@@ -19,11 +19,13 @@
 	  background-color:#4E5465;
   }
 </style>
+<c:if test="${vo.fold}">
 <script type="text/javascript">
 	window.onload = function(){
 		document.getElementById('slide-btn').click();
 	}
 </script>
+</c:if>
 </head>
 <body class="layui-layout-body">
 <input type="hidden" name="basePath" value="<%=basePath %>">

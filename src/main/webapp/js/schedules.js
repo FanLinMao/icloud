@@ -24,6 +24,10 @@ layui.use(['element','form','table','laytpl','laydate','jquery','layer'], functi
 	cols: [[
 		{type:'checkbox'},
 		{field: 'taskId', hide: true},
+		{field: 'jobName', hide: true},
+		{field: 'jobGroupName', hide: true},
+		{field: 'triggerName', hide: true},
+		{field: 'triggerGroupName', hide: true},
 		{field: 'frequence', title: '频率', width: 150},
 		{field: 'cycle', title: '循环', width: 100},
 		{field: 'time', title: '时间', width: 250}, 
@@ -156,6 +160,7 @@ layui.use(['element','form','table','laytpl','laydate','jquery','layer'], functi
 		      });
 		      //重新渲染动态加载的表单
 		      form.render(null, 'tipsform');
+		      
 	    }
 	  };
 	  
@@ -234,9 +239,18 @@ layui.use(['element','form','table','laytpl','laydate','jquery','layer'], functi
 				  ,"cycle": weekof[data.cycle]
 				  ,"time": data.time
 				  ,"action": a[data.action]
+				  ,"jobName": data.jobName
+				  ,"jobGroupName": data.jobGroupName
+				  ,"triggerName": data.triggerName
+				  ,"triggerGroupName": data.triggerGroupName
 				  ,"status": statusValue
 				});
-			
+			//时间选择器
+			  laydate.render({ 
+				  elem: '#idate'
+				  ,type: 'time'
+				  //,value: data.time
+			  });
 		    //同步更新缓存对应的值
 		    /*obj.update({
 		      username: '123'
@@ -249,7 +263,6 @@ layui.use(['element','form','table','laytpl','laydate','jquery','layer'], functi
 		  form.on('submit(layerPane)', function(data){ 
 		  		var values = data.field;
 		  		values.op = method;
-		  		console.log(values)
 	            $.ajax({   
 	                url: basepath+'task',       
 	                method:'post',       
@@ -264,7 +277,7 @@ layui.use(['element','form','table','laytpl','laydate','jquery','layer'], functi
 							}            
 	                },              
 	                error:function (XMLHttpRequest, textStatus, errorThrown) {
-	                       alert(XMLHttpRequest+","+textStatus+","+errorThrown)
+	                       layer.alert(XMLHttpRequest+","+textStatus+","+errorThrown)
 	                }           
 	             });         
 	                

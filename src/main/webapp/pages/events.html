@@ -16,28 +16,20 @@
 员赶紧处理。
 		</blockquote>
 		<!-- 搜索栏 -->
-		<form class="layui-form" action="">
-			<div class="layui-form-item">
-				<div class="layui-inline">
-				  <label class="layui-form-label">起始时间</label>
-				  <div class="layui-input-inline">
-					<input type="text" name="startDate" id="startDate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-				  </div>
-				</div>
-				<div class="layui-inline">
-				  <label class="layui-form-label">结束时间</label>
-				  <div class="layui-input-inline">
-					<input type="text" name="endDate" id="endDate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-				  </div>
-				</div>
-				<div class="layui-inline">
-				  <div class="layui-input-block">
-						<button type="submit" class="layui-btn" lay-submit="" lay-filter="search">搜 索</button>
-				  </div>
-				</div>
-				
+		<div class="searchbox" style="width:98%;margin:0px auto;">
+			开始时间：
+			<div class="layui-inline">
+				<input type="text" name="startDate" id="startDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 			</div>
-		</form>
+			结束时间：
+			<div class="layui-inline">
+				<input type="text" name="endDate" id="endDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-inline">
+					<button type="button" class="layui-btn" id="search">搜 索</button>
+			</div>
+		</div>
+				
 		<hr class="layui-bg-green">
 		<!-- 表格 -->
 		<div class="layui-btn-container">
@@ -46,8 +38,8 @@
 		
 		
 		<script type="text/html" id="row-opBar">
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a> -->
 		</script>
 	</body>
 </html>

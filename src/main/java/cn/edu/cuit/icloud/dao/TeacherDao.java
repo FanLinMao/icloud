@@ -306,5 +306,26 @@ public class TeacherDao extends GenericDao {
 		getJdbc().close();
 		return status;
 	}
+	
+	/**
+	 * 查找所有教室地址
+	 * @return
+	 */
+	public List<String> findRoomAddress(){
+		String sql = "select distinct r.room from room r";
+		List<String> list = new ArrayList<String>();
+		ResultSet rs = getJdbc().doQuery(sql, new Object[]{});
+		try {
+			while (rs.next()) {
+				list.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			getJdbc().close();
+		}
+		return list;
+	}
 
 }

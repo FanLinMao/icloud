@@ -17,7 +17,7 @@ public class MD5Util {
             md5.update(originStr.getBytes());
             byte[] bytes = md5.digest();
             StringBuffer sb = new StringBuffer();
-            // 将整数转换成十六进制形式的字符串 这里与0xff进行与运算的原因是保证转换结果为32位
+            //将整数转换成十六进制形式的字符串 这里与0xff进行与运算的原因是保证转换结果为32位
             for (int i = 0; i < bytes.length; i++) {
                 int val = ((int) bytes[i]) & 0xff;
                 if (val < 16){

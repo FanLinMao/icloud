@@ -7,6 +7,7 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import cn.edu.cuit.icloud.annotation.Role;
+import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.dto.UserDTO;
 import cn.edu.cuit.icloud.pojo.User;
 import cn.edu.cuit.icloud.service.LoginService;
@@ -41,9 +42,10 @@ public class LoginContext {
 		this.userDto = userDto;
 	}
 	
-	public User login() throws Exception{
+	public MessageDTO login() throws Exception{
 		LoginService loginService = (LoginService)objMap.get(getUser().getRole());
-		return loginService.login(getUser());
+		MessageDTO dto = loginService.loginCheck(getUser());
+		return dto;
 	}
 
 	public UserDTO getUser() {

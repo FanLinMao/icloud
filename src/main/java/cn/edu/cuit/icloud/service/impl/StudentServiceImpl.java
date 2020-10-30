@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import cn.edu.cuit.icloud.annotation.Role;
 import cn.edu.cuit.icloud.constant.RoleEnum;
 import cn.edu.cuit.icloud.dao.StudentDao;
+import cn.edu.cuit.icloud.dto.MessageDTO;
 import cn.edu.cuit.icloud.dto.UserDTO;
 import cn.edu.cuit.icloud.pojo.User;
 import cn.edu.cuit.icloud.service.LoginService;
@@ -58,6 +59,15 @@ public class StudentServiceImpl implements UserService,LoginService {
 	public User login(UserDTO user) {
 		logger.info("Ñ§ÉúµÇÂ¼");
 		return stuDao.login(user.getUsername(), user.getPassword(), user.getRole());
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.edu.cuit.icloud.service.LoginService#loginCheck(cn.edu.cuit.icloud.dto.UserDTO)
+	 */
+	@Override
+	public MessageDTO loginCheck(UserDTO user) {
+		// TODO Auto-generated method stub
+		return stuDao.loginCheck(user.getUsername(), user.getPassword(), user.getRole());
 	}
 
 }

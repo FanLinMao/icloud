@@ -16,10 +16,10 @@
 		</blockquote>
 		<!-- 按钮 -->
 		<div class="layui-btn-container">
-		  <button type="button" class="layui-btn">
+		  <button type="button" class="layui-btn" data-method="add" data-type="auto">
 		    <i class="layui-icon">&#xe608;</i> 录入机房
 		  </button>
-		  <button type="button" class="layui-btn">
+		  <button type="button" class="layui-btn" data-method="del" data-type="auto">
 		    <i class="layui-icon">&#xe608;</i> 批量删除
 		  </button>
 		</div>
@@ -31,9 +31,44 @@
 		
 		
 		<script type="text/html" id="row-opBar">
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">查看</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
+		  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail">查看</a> -->
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>
+		</script>
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form" lay-filter="tipsform">
+				<input type="hidden" name="id" value=""/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">机房</label>
+					<div class="layui-input-block">
+						<input type="text" name="room" required lay-verify="username"
+							autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">设施设备</label>
+					<div class="layui-input-block">
+						<input type="text" name="equipment" required lay-verify="username"
+							autocomplete="off" class="layui-input" >
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">适合课程</label>
+					<div class="layui-input-block">
+						<input type="text" name="course" required lay-verify="username"
+							autocomplete="off" class="layui-input" >
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">容纳人数</label>
+					<div class="layui-input-block">
+						<input type="text" name="userCount" required lay-verify="username"
+							autocomplete="off" class="layui-input" >
+					</div>
+				</div>
+				
+				
+			</form>
 		</script>
 	</body>
 </html>

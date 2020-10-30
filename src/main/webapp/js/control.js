@@ -1,6 +1,28 @@
 layui.use(['element','jquery'], function(){
 	var element = layui.element;
 	var $ = layui.jquery;
+	var basepath =$("input[name=basePath]", window.parent.document).val();
+	var lists = new Map();
+	$.ajax({
+		url:basepath+'controlpanel',
+		type:'post',
+		async:false,
+		data:{action:'listCapacity'},
+		success:function(res){
+			if(res.code === 200){
+				var data = res.data;
+				for(var i = 0; i < data.listcapacityresponse.count; i++){
+					var arr = data.listcapacityresponse.capacity;
+					console.log(arr[i].capacityused)
+					lists.set(arr[i].type+"",arr[i].capacityused);
+				}
+			}
+		},
+		error:function(xhr,s,e){
+			
+		}
+	})
+	console.log(lists)
 	//条形图
 	var option1 = {
 	    legend: {
@@ -43,23 +65,23 @@ layui.use(['element','jquery'], function(){
 	        {
 	            name:'CPU占用',
 	            type:'bar',
-	            data:[2.0]
+	            data:[lists.get("1")]
 	        },{
 	            name:'主存储占用',
 	            type:'bar',
-	            data:[2.6]
+	            data:[lists.get("2")]
 	        },{
 			      name:'二级存储占用',
 			      type:'bar',
-			      data:[3.6]
+			      data:[lists.get("6")]
 			  },{
 			      name:'共享IP占用',
 			      type:'bar',
-			      data:[4.7]
+			      data:[lists.get("8")]
 			  },{
 			      name:'内存占用',
 			      type:'bar',
-			      data:[2.5]
+			      data:[lists.get("0")]
 			  }
 			  
 	    ]

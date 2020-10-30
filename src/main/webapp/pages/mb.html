@@ -20,24 +20,15 @@
 	</head>
 	<body>
 		<!-- 内容主体区域 -->
-		
-			<!-- <fieldset class="layui-elem-field layui-field-title site-title">
-		      <legend><a name="default">操作系统模板</a></legend>
-		    </fieldset>
-		    <blockquote class="site-text layui-elem-quote">
-		      本篇为你介绍表格的HTML使用，你将通过内置的自定义属性对其进行风格的多样化设定。<em>请注意：</em>这仅仅局限于呈现基础表格，如果你急切需要的是数据表格（<em>datatable</em>），那么你应该详细阅读：<a href="/doc/modules/table.html">table模块</a>
-		    </blockquote> -->
 		<blockquote class="my-block-quote">
 		  <p class="my-big-title">操作系统模板</p>
 		  一、系统中存在的操作系统模板，用于教师预约资源时勾选
 		</blockquote>
 		<!-- 按钮栏 -->
 		<div class="layui-btn-container">
-		  <button type="button" class="layui-btn">
-		    <i class="layui-icon">&#xe608;</i> 新建虚拟机
+		  <button type="button" class="layui-btn" data-method="registerIso" data-type="auto">
+		    <i class="layui-icon">&#xe608;</i> 注册模板
 		  </button>
-		  <button type="button" class="layui-btn">按钮二</button> 
-		  <button type="button" class="layui-btn">按钮三</button> 
 		</div>
 		<!-- 表格 -->
 		<div class="layui-btn-container">
@@ -45,7 +36,125 @@
 		</div>
 		<script type="text/html" id="row-opBar">
 		  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">销毁</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteIso">销毁</a>
+		</script>
+		<script type="text/html" id="layerform">
+			<form id="tipsform" class="layui-form" lay-filter="tipsform">
+				<input type="hidden" name="templateId" value=""/>
+				<div class="layui-form-item">
+    <label class="layui-form-label">名称</label>
+    <div class="layui-input-block">
+      <input type="text" name="name" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">说明</label>
+    <div class="layui-input-block">
+      <input type="text" name="displaytext" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">URL</label>
+    <div class="layui-input-block">
+      <select name="url" lay-verify="required">
+        <option value=""></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">区域</label>
+    <div class="layui-input-block">
+      <select name="zoneid" lay-verify="required">
+        <option value=""></option>
+        <option value="-1">All Zones</option>
+        <option value="3d02e47f-49d1-4137-b44c-2aa8a757ec3b">zone01</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">可启动</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="bootable" lay-skin="primary" checked>
+    </div>
+  </div>
+<!--
+  <div class="layui-form-item">
+    <label class="layui-form-label">虚拟机管理程序</label>
+    <div class="layui-input-block">
+      <select name="hypervisor" lay-verify="required">
+        <option value=""></option>
+        <option value="KVM">KVM</option>
+        <option value="XenServer">XenServer</option>
+        <option value="VMware">VMware</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">格式</label>
+    <div class="layui-input-block">
+      <select name="format" lay-verify="required">
+        <option value=""></option>
+        <option value="VHD">VHD</option>
+        
+      </select>
+    </div>
+  </div>
+-->
+  <div class="layui-form-item">
+    <label class="layui-form-label">操作系统类型</label>
+    <div class="layui-input-block">
+      <select name="ostypeid" lay-verify="required">
+        <option value=""></option>
+        <option value="1255d62f-8074-11ea-9cb2-98fa9bdfe5e3">CentOS 6.4 (64-bit)</option>
+        <option value="12542e54-8074-11ea-9cb2-98fa9bdfe5e3">Windows Server 2008 R2 (64-bit)</option>
+        <option value="125423d4-8074-11ea-9cb2-98fa9bdfe5e3">Windows 7 (64-bit)</option>
+        <option value="125503f1-8074-11ea-9cb2-98fa9bdfe5e3">Ubuntu 8.04 (64-bit)</option>
+      </select>
+    </div>
+  </div>
+<!--
+  <div class="layui-form-item">
+    <label class="layui-form-label">可提取</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="isextractable" lay-skin="primary">
+    </div>
+  </div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">已启用密码</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="isPasswordEnabled" lay-skin="primary">
+    </div>
+  </div>
+<div class="layui-form-item">
+    <label class="layui-form-label">Dynamically Scalable</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="isdynamicallyscalable" lay-skin="primary">
+    </div>
+  </div>
+-->
+<div class="layui-form-item">
+    <label class="layui-form-label">公用</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="ispublic" lay-skin="primary">
+    </div>
+  </div>
+<div class="layui-form-item">
+    <label class="layui-form-label">特色的</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="isfeatured" lay-skin="primary">
+    </div>
+  </div>
+<!--
+<div class="layui-form-item">
+    <label class="layui-form-label">正在路由</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="isrouting" lay-skin="primary">
+    </div>
+  </div>
+-->
+				
+			</form>
 		</script>
 	</body>
 </html>

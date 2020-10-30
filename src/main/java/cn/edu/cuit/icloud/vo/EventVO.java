@@ -3,7 +3,7 @@ package cn.edu.cuit.icloud.vo;
 import cn.edu.cuit.icloud.pojo.User;
 
 /**
- * 常用的事件模型
+ * 教师端预约常用的事件模型
  * @date: 2020年3月25日
  * @author: flfan
  */

@@ -70,7 +70,7 @@ img {
 
 	<%--标题--%>
 	<h1 style="color: #FFFFFF; position: absolute; top: 10%; left: 40%;">
-		<strong>icloud统一验证平台</strong>
+		<strong>iCloud统一验证平台</strong>
 	</h1>
 	<%--图片头像--%>
 	<div id="imgbox">
@@ -78,7 +78,7 @@ img {
 	</div>
 	<%--表单--%>
 	<div id="loginbox">
-		<div class="layui-form">
+		<div class="layui-form" lay-filter="loginbox">
 			<div class="layui-form-item">
 				<input type="text" name="username" placeholder="用户名"
 					autocomplete="off" class="layui-input" lay-verify="required">
@@ -90,7 +90,7 @@ img {
 
 			<div class="layui-form-item">
 				<div style="width: 100px; float: left;">
-					<select name="role" lay-filter="aihao" placeholder="--角色--">
+					<select name="role" lay-filter="role" placeholder="--角色--" lay-verify="required">
 						<option value="">--角色--</option>
 						<option value="1">管理员</option>
 						<option value="2">教师</option>
@@ -110,7 +110,7 @@ img {
 			<img src="img/login_cloud.png">
 		</div>
 		<span
-			style="position: relative; left: 0.5%; top: 56%; font-family: 'arial black'; font-size: 40; color: #FFFFFF;">icloud</span>
+			style="position: relative; left: 0.5%; top: 56%; font-family: 'arial black'; font-size: 40; color: #FFFFFF;">iCloud</span>
 		<span style="position: relative; left: 35%; top: 20%; color: #FFFFFF;">Copyright
 			&copy;2020 Flemming. 版权所有。</span>
 	</div>
